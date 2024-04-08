@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::view('get-pricing', 'pricing')->name('pricing');
-
-    Route::view('checkout', function () {
-        //
-    })->name('checkout');
+    Route::get('checkout/{plan?}', CheckoutController::class)->name('checkout');
+    Route::view('show-success', 'success')->name('success');
 });
 
 require __DIR__.'/auth.php';
