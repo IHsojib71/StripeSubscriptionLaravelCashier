@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\ProfileController;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +21,13 @@ Route::middleware('auth')->group(function () {
     Route::view('get-pricing', 'pricing')->name('pricing');
     Route::get('checkout/{plan?}', CheckoutController::class)->name('checkout');
     Route::view('show-success', 'success')->name('success');
+
+    Route::get('/charge-checkout', function (Request $request) {
+        return $request->user()->checkoutCharge(1200, 'T-Shirt', 1, [
+            'success_url' => route('success'),
+            'cancel_url' => route('dashboard'),
+        ]);
+    });
 });
 
 require __DIR__.'/auth.php';
